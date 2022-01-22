@@ -124,7 +124,92 @@ public class CampoTeste {
 		campo.adicionarVizinho(vizinho1);
 		campo.abrir();
 		assertTrue(campo.isAberto() && vizinho1.isAberto() && vizinhoDoVizinho1.isFechado());
+	}
 
+	@Test
+	void testeObjetivoDesvendado() {
+		campo.minar();
+		campo.alternarMarcacao();
+		assertTrue(campo.objetivoAlcancado());
+	}
+
+	@Test
+	void testeObjetivoDesvendado2() {
+		campo.abrir();
+		assertTrue(campo.objetivoAlcancado());
+	}
+
+	@Test
+	void testeContagemDeVizinhos() {
+		Campo campo22 = new Campo(2, 2);
+		Campo campo11 = new Campo(1, 1);
+		Campo campo12 = new Campo(1, 2);
+		Campo campo32 = new Campo(3, 2);
+
+		campo.adicionarVizinho(campo22);
+		campo.adicionarVizinho(campo32);
+		campo22.adicionarVizinho(campo32);
+		campo22.adicionarVizinho(campo11);
+		campo22.adicionarVizinho(campo12);
+		campo12.minar();
+		campo32.minar();
+		assertEquals(2, campo22.minasNaVizinhanca());
+	}
+
+	@Test
+	void testeContagemDeVizinhos2() {
+		Campo campo22 = new Campo(2, 2);
+		Campo campo11 = new Campo(1, 1);
+		Campo campo12 = new Campo(1, 2);
+		Campo campo32 = new Campo(3, 2);
+
+		campo.adicionarVizinho(campo22);
+		campo.adicionarVizinho(campo32);
+		campo22.adicionarVizinho(campo32);
+		campo22.adicionarVizinho(campo11);
+		campo22.adicionarVizinho(campo12);
+		campo12.minar();
+		assertEquals(0, campo.minasNaVizinhanca());
+	}
+
+	@Test
+	void reset() {
+		campo.reiniciar();
+		assertFalse(campo.isAberto() && campo.isMarcado() && campo.isMinado());
+	}
+
+	@Test
+	void stringMarcado() {
+		campo.alternarMarcacao();
+		assertTrue(campo.isMarcado(), "x");
+	}
+
+	@Test
+	void stringRuim() {
+		campo.minar();
+		try {
+			campo.abrir();
+		} catch (ExplosaoException e) {
+			assertTrue(campo.isAberto() && campo.isMinado(), "x");
+		}
+	}
+
+	@Test
+	void stringContagem() {
+		Campo campo22 = new Campo(2, 2);
+		Campo campo11 = new Campo(1, 1);
+		Campo campo12 = new Campo(1, 2);
+		Campo campo32 = new Campo(3, 2);
+
+		campo.adicionarVizinho(campo22);
+		campo.adicionarVizinho(campo32);
+		campo22.adicionarVizinho(campo32);
+		campo22.adicionarVizinho(campo11);
+		campo22.adicionarVizinho(campo12);
+		campo12.minar();
+		campo32.minar();
+		campo.abrir();
+		assertTrue(campo.isAberto() && campo.minasNaVizinhanca() == 1, Long.toString(campo.minasNaVizinhanca()));
 	}
 
 }
