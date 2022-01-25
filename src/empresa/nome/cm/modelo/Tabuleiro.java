@@ -20,6 +20,19 @@ public class Tabuleiro {
 		associarVizinhos();
 		sortearMinas();
 	}
+	
+	public void abrir(int linha, int coluna) {
+		campos.parallelStream()
+		.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+		.findFirst()
+		.ifPresent(c -> c.abrir());
+	}
+	public void marcar(int linha, int coluna) {
+		campos.parallelStream()
+		.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+		.findFirst()
+		.ifPresent(c -> c.alternarMarcacao());
+	}
 
 	private void gerarCampos() {
 		for (int i = 0; i < linhas; i++) {
@@ -59,6 +72,21 @@ public class Tabuleiro {
 	}
 	
 	public String toString() {
-		return " ";
+		
+		StringBuilder sb = new StringBuilder();
+		int x = 0;
+		for (int i = 0; i < linhas; i++) {
+			for (int j = 0; j < colunas; j++) {
+				sb.append(" ");
+				sb.append(campos.get(x));
+				sb.append(" ");
+				x++;
+			}
+			sb.append("\n");
+			
+		}
+		
+		
+		return sb.toString();
 	}
 }
