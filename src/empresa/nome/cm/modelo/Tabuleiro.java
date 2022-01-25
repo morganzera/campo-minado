@@ -27,7 +27,7 @@ public class Tabuleiro {
 		.findFirst()
 		.ifPresent(c -> c.abrir());
 	}
-	public void marcar(int linha, int coluna) {
+	public void alternarMarcacao(int linha, int coluna) {
 		campos.parallelStream()
 		.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
 		.findFirst()
